@@ -12,7 +12,7 @@
 
 <meta name="author" content="Sagie Gur-Ari" />
 
-<meta name="date" content="2017-11-14" />
+<meta name="date" content="2017-11-25" />
 
 <title>scriptexec</title>
 
@@ -268,7 +268,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 
 <h1 class="title toc-ignore">scriptexec</h1>
 <h4 class="author"><em>Sagie Gur-Ari</em></h4>
-<h4 class="date"><em>2017-11-14</em></h4>
+<h4 class="date"><em>2017-11-25</em></h4>
 
 
 
@@ -277,19 +277,38 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <p>The purpose of the scriptexec package is to enable quick and easy way to execute native scripts.</p>
 <pre class="sourceCode r" id="cb1"><code class="sourceCode r"><div class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(scriptexec)</div>
 <div class="sourceLine" id="cb1-2" data-line-number="2"></div>
-<div class="sourceLine" id="cb1-3" data-line-number="3"><span class="co">#execute script text</span></div>
-<div class="sourceLine" id="cb1-4" data-line-number="4">output &lt;-<span class="st"> </span>scriptexec<span class="op">::</span><span class="kw">script_execute</span>(<span class="st">'echo Current Directory:</span><span class="ch">\n</span><span class="st">dir'</span>)</div>
-<div class="sourceLine" id="cb1-5" data-line-number="5"><span class="co">#&gt; arguments 'minimized' and 'invisible' are for Windows only</span></div>
-<div class="sourceLine" id="cb1-6" data-line-number="6"><span class="kw">cat</span>(<span class="kw">sprintf</span>(<span class="st">'%s</span><span class="ch">\n</span><span class="st">'</span>, output))</div>
-<div class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">#&gt; NULL</span></div>
-<div class="sourceLine" id="cb1-8" data-line-number="8"><span class="co">#&gt;  c(&quot;Current Directory:&quot;, &quot;scriptexec.R  scriptexec.Rmd&quot;)</span></div>
-<div class="sourceLine" id="cb1-9" data-line-number="9"></div>
-<div class="sourceLine" id="cb1-10" data-line-number="10"><span class="co">#execute multiple commands as a script</span></div>
-<div class="sourceLine" id="cb1-11" data-line-number="11">output &lt;-<span class="st"> </span>scriptexec<span class="op">::</span><span class="kw">script_execute</span>(<span class="kw">c</span>(<span class="st">'cd'</span>, <span class="st">'echo User Home:'</span>, <span class="st">'dir'</span>))</div>
-<div class="sourceLine" id="cb1-12" data-line-number="12"><span class="co">#&gt; arguments 'minimized' and 'invisible' are for Windows only</span></div>
-<div class="sourceLine" id="cb1-13" data-line-number="13"><span class="kw">cat</span>(<span class="kw">sprintf</span>(<span class="st">'%s</span><span class="ch">\n</span><span class="st">'</span>, output))</div>
-<div class="sourceLine" id="cb1-14" data-line-number="14"><span class="co">#&gt; NULL</span></div>
-<div class="sourceLine" id="cb1-15" data-line-number="15"><span class="co">#&gt;  c(&quot;User Home:&quot;, &quot;R  apache-maven-3.3.9  che  entrypoint.sh  group.template  passwd.template  tomcat8&quot;)</span></div></code></pre>
+<div class="sourceLine" id="cb1-3" data-line-number="3"><span class="co"># execute script text</span></div>
+<div class="sourceLine" id="cb1-4" data-line-number="4">output &lt;-<span class="st"> </span>scriptexec<span class="op">::</span><span class="kw">execute</span>(<span class="st">&quot;echo Current Directory:</span><span class="ch">\n</span><span class="st">dir&quot;</span>)</div>
+<div class="sourceLine" id="cb1-5" data-line-number="5"><span class="kw">cat</span>(<span class="kw">sprintf</span>(<span class="st">&quot;Exit Status: %s Output: %s</span><span class="ch">\n</span><span class="st">&quot;</span>, output<span class="op">$</span>status, output<span class="op">$</span>output))</div>
+<div class="sourceLine" id="cb1-6" data-line-number="6"><span class="co">#&gt; Exit Status: 0 Output: Current Directory:scriptexec.R  scriptexec.Rmd</span></div>
+<div class="sourceLine" id="cb1-7" data-line-number="7"></div>
+<div class="sourceLine" id="cb1-8" data-line-number="8"><span class="co"># execute multiple commands as a script</span></div>
+<div class="sourceLine" id="cb1-9" data-line-number="9">output &lt;-<span class="st"> </span>scriptexec<span class="op">::</span><span class="kw">execute</span>(<span class="kw">c</span>(<span class="st">&quot;cd&quot;</span>, <span class="st">&quot;echo User Home:&quot;</span>, <span class="st">&quot;dir&quot;</span>))</div>
+<div class="sourceLine" id="cb1-10" data-line-number="10"><span class="kw">cat</span>(<span class="kw">sprintf</span>(<span class="st">&quot;Exit Status: %s Output: %s</span><span class="ch">\n</span><span class="st">&quot;</span>, output<span class="op">$</span>status, output<span class="op">$</span>output))</div>
+<div class="sourceLine" id="cb1-11" data-line-number="11"><span class="co">#&gt; Exit Status: 0 Output: User Home:R  lib  workspace</span></div>
+<div class="sourceLine" id="cb1-12" data-line-number="12"></div>
+<div class="sourceLine" id="cb1-13" data-line-number="13"><span class="co"># pass arguments to the script, later defined as ARG1, ARG2, ...</span></div>
+<div class="sourceLine" id="cb1-14" data-line-number="14"><span class="co"># and also pass some env vars</span></div>
+<div class="sourceLine" id="cb1-15" data-line-number="15">output &lt;-<span class="st"> </span><span class="kw">execute</span>(<span class="st">&quot;echo $ARG1 $ARG2 $MYENV&quot;</span>, <span class="dt">args =</span> <span class="kw">c</span>(<span class="st">&quot;TEST1&quot;</span>, <span class="st">&quot;TEST2&quot;</span>), <span class="dt">env =</span> <span class="kw">c</span>(<span class="st">&quot;MYENV=TEST3&quot;</span>))</div>
+<div class="sourceLine" id="cb1-16" data-line-number="16"><span class="kw">cat</span>(<span class="kw">sprintf</span>(<span class="st">&quot;%s</span><span class="ch">\n</span><span class="st">&quot;</span>, output))</div>
+<div class="sourceLine" id="cb1-17" data-line-number="17"><span class="co">#&gt; 0</span></div>
+<div class="sourceLine" id="cb1-18" data-line-number="18"><span class="co">#&gt;  TEST1 TEST3TEST1 TEST2 TEST3</span></div>
+<div class="sourceLine" id="cb1-19" data-line-number="19"></div>
+<div class="sourceLine" id="cb1-20" data-line-number="20"><span class="co"># non zero status code is returned in case of errors</span></div>
+<div class="sourceLine" id="cb1-21" data-line-number="21">output &lt;-<span class="st"> </span>scriptexec<span class="op">::</span><span class="kw">execute</span>(<span class="st">&quot;exit 1&quot;</span>)</div>
+<div class="sourceLine" id="cb1-22" data-line-number="22"><span class="kw">cat</span>(<span class="kw">sprintf</span>(<span class="st">&quot;Status: %s</span><span class="ch">\n</span><span class="st">&quot;</span>, output<span class="op">$</span>status))</div>
+<div class="sourceLine" id="cb1-23" data-line-number="23"><span class="co">#&gt; Status: 1</span></div>
+<div class="sourceLine" id="cb1-24" data-line-number="24"><span class="kw">cat</span>(<span class="kw">sprintf</span>(<span class="st">&quot;%s</span><span class="ch">\n</span><span class="st">&quot;</span>, output))</div>
+<div class="sourceLine" id="cb1-25" data-line-number="25"><span class="co">#&gt; 1</span></div>
+<div class="sourceLine" id="cb1-26" data-line-number="26"><span class="co">#&gt; </span></div>
+<div class="sourceLine" id="cb1-27" data-line-number="27"></div>
+<div class="sourceLine" id="cb1-28" data-line-number="28"><span class="co"># do not wait for command to finish</span></div>
+<div class="sourceLine" id="cb1-29" data-line-number="29"><span class="kw">execute</span>(<span class="st">'echo my really long task'</span>, <span class="dt">wait =</span> <span class="ot">FALSE</span>)</div>
+<div class="sourceLine" id="cb1-30" data-line-number="30"><span class="co">#&gt; $status</span></div>
+<div class="sourceLine" id="cb1-31" data-line-number="31"><span class="co">#&gt; [1] -1</span></div>
+<div class="sourceLine" id="cb1-32" data-line-number="32"><span class="co">#&gt; </span></div>
+<div class="sourceLine" id="cb1-33" data-line-number="33"><span class="co">#&gt; $output</span></div>
+<div class="sourceLine" id="cb1-34" data-line-number="34"><span class="co">#&gt; [1] &quot;0&quot;</span></div></code></pre>
 </section>
 
 

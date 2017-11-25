@@ -1,6 +1,6 @@
 Package: scriptexec
 Title: Execute Native Scripts
-Version: 0.1.0
+Version: 0.2.1
 Authors@R: person("Sagie", "Gur-Ari", email = "sagiegurari@gmail.com", role = c("aut", "cre"))
 Description: Run complex native scripts with a single command, similar to system commands.
 License: Apache License 2.0
@@ -12,8 +12,8 @@ RoxygenNote: 6.0.1
 Suggests: knitr, rmarkdown, testthat
 VignetteBuilder: knitr
 NeedsCompilation: no
-Packaged: 2017-11-14 23:50:04 UTC; user
+Packaged: 2017-11-25 16:53:39 UTC; ubuntu
 Author: Sagie Gur-Ari [aut, cre]
 Maintainer: Sagie Gur-Ari <sagiegurari@gmail.com>
 Repository: CRAN
-Date/Publication: 2017-11-15 10:06:32 UTC
+Date/Publication: 2017-11-25 17:02:49 UTC

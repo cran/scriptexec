@@ -1,14 +1,13 @@
 # scriptexec
 
-[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/scriptexec)](https://cran.r-project.org/package=scriptexec) [![Build Status](https://travis-ci.org/sagiegurari/scriptexec.svg)](http://travis-ci.org/sagiegurari/scriptexec) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/sagiegurari/scriptexec?branch=master&svg=true)](https://ci.appveyor.com/project/sagiegurari/scriptexec) [![codecov](https://codecov.io/gh/sagiegurari/scriptexec/branch/master/graph/badge.svg)](https://codecov.io/gh/sagiegurari/scriptexec)<br>
-[![CRAN](https://img.shields.io/cran/l/scriptexec.svg)](https://github.com/sagiegurari/scriptexec/blob/master/LICENSE) [![Rdoc](http://www.rdocumentation.org/badges/version/scriptexec)](http://www.rdocumentation.org/packages/scriptexec)
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/scriptexec)](https://cran.r-project.org/package=scriptexec) [![GitHub release](https://img.shields.io/github/release/sagiegurari/scriptexec.svg)](https://github.com/sagiegurari/scriptexec/releases) [![Build Status](https://travis-ci.org/sagiegurari/scriptexec.svg)](http://travis-ci.org/sagiegurari/scriptexec) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/sagiegurari/scriptexec?branch=master&svg=true)](https://ci.appveyor.com/project/sagiegurari/scriptexec) [![codecov](https://codecov.io/gh/sagiegurari/scriptexec/branch/master/graph/badge.svg)](https://codecov.io/gh/sagiegurari/scriptexec) [![License](https://img.shields.io/cran/l/scriptexec.svg)](https://github.com/sagiegurari/scriptexec/blob/master/LICENSE)
 
 > Run complex native scripts with a single command, similar to system commands.
 
 * [Overview](#overview)
 * [Usage](#usage)
 * [Installation](#installation)
-* [API Documentation](http://www.rdocumentation.org/packages/scriptexec)
+* [API Documentation](docs/api.md)
 * [Contributing](.github/CONTRIBUTING.md)
 * [Release History](NEWS.md)
 * [License](#license)
@@ -19,36 +18,52 @@ The purpose of the scriptexec package is to enable quick and easy way to execute
 
 <a name="usage"></a>
 ## Usage
-Simply load the library and invoke the script_execute
+Simply load the library and invoke the execute
 
 ````r
-library(scriptexec)
+output <- scriptexec::execute("echo Current Directory:\ndir")
+cat(sprintf("Exit Status: %s Output: %s\n", output$status, output$output))
 
-#execute script text
-output <- scriptexec::script_execute('echo Current Directory:\ndir')
-cat(sprintf('%s\n', output))
+# execute multiple commands as a script
+output <- scriptexec::execute(c("cd", "echo User Home:", "dir"))
+cat(sprintf("Exit Status: %s Output: %s\n", output$status, output$output))
 
-#execute multiple commands as a script
-output <- scriptexec::script_execute(c('cd', 'echo User Home:', 'dir'))
-cat(sprintf('%s\n', output))
+# pass arguments to the script, later defined as ARG1, ARG2, ...
+# and also pass some env vars
+output <- execute("echo $ARG1 $ARG2 $MYENV", args = c("TEST1", "TEST2"), env = c("MYENV=TEST3"))
+cat(sprintf("%s\n", output))
+
+# non zero status code is returned in case of errors
+output <- scriptexec::execute("exit 1")
+cat(sprintf("Status: %s\n", output$status))
+cat(sprintf("%s\n", output))
+
+# do not wait for command to finish
+execute('echo my really long task', wait = FALSE)
 ````
 
 <a name="installation"></a>
 ## Installation
-In order to use this library, run the following command:
+Install latest release from github (recommanded):
 
 ```r
-install.packages("lintr")
+devtools::install_github("sagiegurari/scriptexec@0.2.1")
 ```
 
-Or install latest version from github:
+Install from CRAN (might be older, depending on CRAN team approval process)
+
+```r
+install.packages("scriptexec")
+```
+
+Install current development version from github (might be unstable):
 
 ```r
 devtools::install_github("sagiegurari/scriptexec")
 ```
 
 ## API Documentation
-See full docs at: [API Docs](http://www.rdocumentation.org/packages/scriptexec)
+See full docs at: [API Docs](docs/api.md)
 
 ## Contributing
 See [contributing guide](.github/CONTRIBUTING.md)
