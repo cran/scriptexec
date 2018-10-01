@@ -1,6 +1,7 @@
 # scriptexec
 
-[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/scriptexec)](https://cran.r-project.org/package=scriptexec) [![GitHub release](https://img.shields.io/github/release/sagiegurari/scriptexec.svg)](https://github.com/sagiegurari/scriptexec/releases) [![Build Status](https://travis-ci.org/sagiegurari/scriptexec.svg)](http://travis-ci.org/sagiegurari/scriptexec) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/sagiegurari/scriptexec?branch=master&svg=true)](https://ci.appveyor.com/project/sagiegurari/scriptexec) [![codecov](https://codecov.io/gh/sagiegurari/scriptexec/branch/master/graph/badge.svg)](https://codecov.io/gh/sagiegurari/scriptexec) [![License](https://img.shields.io/cran/l/scriptexec.svg)](https://github.com/sagiegurari/scriptexec/blob/master/LICENSE)
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/scriptexec)](https://cran.r-project.org/package=scriptexec) [![GitHub release](https://img.shields.io/github/release/sagiegurari/scriptexec.svg)](https://github.com/sagiegurari/scriptexec/releases) [![Build Status](https://travis-ci.org/sagiegurari/scriptexec.svg)](http://travis-ci.org/sagiegurari/scriptexec) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/sagiegurari/scriptexec?branch=master&svg=true)](https://ci.appveyor.com/project/sagiegurari/scriptexec) [![codecov](https://codecov.io/gh/sagiegurari/scriptexec/branch/master/graph/badge.svg)](https://codecov.io/gh/sagiegurari/scriptexec)<br>
+[![License](https://img.shields.io/cran/l/scriptexec.svg)](https://github.com/sagiegurari/scriptexec/blob/master/LICENSE) [![Downloads](https://cranlogs.r-pkg.org/badges/grand-total/scriptexec)](https://github.com/sagiegurari/scriptexec/releases) [![Rdoc](http://www.rdocumentation.org/badges/version/scriptexec?0.2.2)](http://www.rdocumentation.org/packages/scriptexec)
 
 > Run complex native scripts with a single command, similar to system commands.
 
@@ -20,7 +21,10 @@ The purpose of the scriptexec package is to enable quick and easy way to execute
 ## Usage
 Simply load the library and invoke the execute
 
-````r
+```r
+library(scriptexec)
+
+# execute script text
 output <- scriptexec::execute("echo Current Directory:\ndir")
 cat(sprintf("Exit Status: %s Output: %s\n", output$status, output$output))
 
@@ -30,7 +34,7 @@ cat(sprintf("Exit Status: %s Output: %s\n", output$status, output$output))
 
 # pass arguments to the script, later defined as ARG1, ARG2, ...
 # and also pass some env vars
-output <- execute("echo $ARG1 $ARG2 $MYENV", args = c("TEST1", "TEST2"), env = c("MYENV=TEST3"))
+output <- scriptexec::execute("echo $ARG1 $ARG2 $MYENV", args = c("TEST1", "TEST2"), env = c("MYENV=TEST3"))
 cat(sprintf("%s\n", output))
 
 # non zero status code is returned in case of errors
@@ -39,21 +43,21 @@ cat(sprintf("Status: %s\n", output$status))
 cat(sprintf("%s\n", output))
 
 # do not wait for command to finish
-execute('echo my really long task', wait = FALSE)
-````
+scriptexec::execute("echo my really long task", wait = FALSE)
+```
 
 <a name="installation"></a>
 ## Installation
-Install latest release from github (recommanded):
-
-```r
-devtools::install_github("sagiegurari/scriptexec@0.2.1")
-```
-
-Install from CRAN (might be older, depending on CRAN team approval process)
+Install from CRAN:
 
 ```r
 install.packages("scriptexec")
+```
+
+Install latest release from github:
+
+```r
+devtools::install_github("sagiegurari/scriptexec@0.2.2")
 ```
 
 Install current development version from github (might be unstable):

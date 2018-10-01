@@ -17,7 +17,7 @@ cat(sprintf("Exit Status: %s Output: %s\n", output$status, output$output))
 
 # pass arguments to the script, later defined as ARG1, ARG2, ...
 # and also pass some env vars
-output <- execute("echo $ARG1 $ARG2 $MYENV", args = c("TEST1", "TEST2"), env = c("MYENV=TEST3"))
+output <- scriptexec::execute("echo $ARG1 $ARG2 $MYENV", args = c("TEST1", "TEST2"), env = c("MYENV=TEST3"))
 cat(sprintf("%s\n", output))
 
 # non zero status code is returned in case of errors
@@ -26,5 +26,5 @@ cat(sprintf("Status: %s\n", output$status))
 cat(sprintf("%s\n", output))
 
 # do not wait for command to finish
-execute('echo my really long task', wait = FALSE)
+scriptexec::execute("echo my really long task", wait = FALSE)
 
