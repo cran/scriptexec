@@ -206,39 +206,43 @@ hr {
 <p>The purpose of the scriptexec package is to enable quick and easy way to execute native scripts.</p>
 
 <pre><code class="r">library(scriptexec)
+library(testthat)
 
 # execute script text
-output &lt;- scriptexec::execute(&quot;echo Current Directory:\ndir&quot;)
-cat(sprintf(&quot;Exit Status: %s Output: %s\n&quot;, output$status, output$output))
-#&gt; Exit Status: 0 Output: Current Directory:scriptexec.R  scriptexec.Rmd
+output &lt;- scriptexec::execute(&quot;echo command1\necho command2&quot;)
+expect_equal(output$status, 0)
+expect_equal(grepl(&quot;command1&quot;, output$output), TRUE)
+expect_equal(grepl(&quot;command2&quot;, output$output), TRUE)
+
+if (.Platform$OS.type == &quot;windows&quot;) {
+    ls_command &lt;- &quot;dir&quot;
+} else {
+    ls_command &lt;- &quot;ls&quot;
+}
+output &lt;- scriptexec::execute(c(&quot;echo user home:&quot;, ls_command))
+expect_equal(output$status, 0)
 
 # execute multiple commands as a script
-output &lt;- scriptexec::execute(c(&quot;cd&quot;, &quot;echo User Home:&quot;, &quot;dir&quot;))
-cat(sprintf(&quot;Exit Status: %s Output: %s\n&quot;, output$status, output$output))
-#&gt; Exit Status: 0 Output: User Home:Desktop    Downloads  Pictures  R      Videos  oldconffiles  start_c9.shDocuments  Music      Public    Templates  c9sdk   python_games  workspace
+output &lt;- scriptexec::execute(c(&quot;cd&quot;, &quot;echo test&quot;))
+expect_equal(output$status, 0)
 
-# pass arguments to the script, later defined as ARG1, ARG2, ...
-# and also pass some env vars
-output &lt;- scriptexec::execute(&quot;echo $ARG1 $ARG2 $MYENV&quot;, args = c(&quot;TEST1&quot;, &quot;TEST2&quot;), env = c(&quot;MYENV=TEST3&quot;))
-cat(sprintf(&quot;%s\n&quot;, output))
-#&gt; 0
-#&gt;  TEST1 TEST3TEST1 TEST2 TEST3
+# pass arguments (later defined as ARG1, ARG2, ...) and env vars
+if (.Platform$OS.type == &quot;windows&quot;) {
+    command &lt;- &quot;echo %ARG1% %ARG2% %MYENV%&quot;
+} else {
+    command &lt;- &quot;echo $ARG1 $ARG2 $MYENV&quot;
+}
+output &lt;- scriptexec::execute(command, args = c(&quot;TEST1&quot;, &quot;TEST2&quot;), env = c(&quot;MYENV=TEST3&quot;))
+expect_equal(output$status, 0)
+expect_equal(grepl(&quot;TEST1 TEST2 TEST3&quot;, output$output), TRUE)
 
 # non zero status code is returned in case of errors
-output &lt;- scriptexec::execute(&quot;exit 1&quot;)
-cat(sprintf(&quot;Status: %s\n&quot;, output$status))
-#&gt; Status: 1
-cat(sprintf(&quot;%s\n&quot;, output))
-#&gt; 1
-#&gt; 
+expect_warning(output &lt;- scriptexec::execute(&quot;exit 1&quot;))
+expect_equal(output$status, 1)
 
 # do not wait for command to finish
-scriptexec::execute(&quot;echo my really long task&quot;, wait = FALSE)
-#&gt; $status
-#&gt; [1] -1
-#&gt; 
-#&gt; $output
-#&gt; [1] &quot;0&quot;
+output &lt;- scriptexec::execute(&quot;echo my really long task&quot;, wait = FALSE)
+expect_equal(output$status, -1)
 </code></pre>
 
 </body>
