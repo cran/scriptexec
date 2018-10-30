@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 0.3.0
+
+* Fixed bug which caused incorrect command line arguments setup #30
+* Make travis mac builds optional as R support for mac on travis is unstable
+
 ## 0.2.3
 
 * Add execute errors to output structure #27

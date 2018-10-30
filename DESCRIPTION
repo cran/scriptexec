@@ -1,6 +1,6 @@
 Package: scriptexec
 Title: Execute Native Scripts
-Version: 0.2.3
+Version: 0.3.0
 Authors@R: person("Sagie", "Gur-Ari", email = "sagiegurari@gmail.com", role = c("aut", "cre"))
 Description: Run complex native scripts with a single command, similar to system commands.
 License: Apache License 2.0
@@ -15,8 +15,8 @@ Suggests: knitr (>= 1.20), testthat (>= 2.0.0), lintr (>= 1.0.2),
         rversions (>= 1.0.3)
 VignetteBuilder: knitr
 NeedsCompilation: no
-Packaged: 2018-10-13 19:50:13 UTC; pi
+Packaged: 2018-10-30 13:32:23 UTC; pi
 Author: Sagie Gur-Ari [aut, cre]
 Maintainer: Sagie Gur-Ari <sagiegurari@gmail.com>
 Repository: CRAN
-Date/Publication: 2018-10-13 20:10:03 UTC
+Date/Publication: 2018-10-30 13:50:03 UTC
